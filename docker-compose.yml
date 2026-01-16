@@ -2,6 +2,9 @@ version: "3"
 services:
     postgres:
         image: "postgres:latest"
+        environment:
+            - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_USER=postgres
     redis:
         image: "redis:latest"
     nginx:
@@ -10,9 +13,12 @@ services:
             dockerfile: Dockerfile.dev
             context: ./nginx
         ports:
-            - "3050:80"
-            # map port 3050 in our local machine to nginx port 80
-    server:
+            - "3000:80"
+            # map port 3000 in our local machine to nginx port 80
+        depends_on:
+            - api
+            - client
+    api:
         build:
             context: ./server
             dockerfile: Dockerfile.dev
@@ -34,6 +40,8 @@ services:
         volumes:
             - /app/node_modules
             - ./client:/app
+        environment:
+            - WDS_SOCKET_PORT=0
     worker:
         build:
             context: ./worker

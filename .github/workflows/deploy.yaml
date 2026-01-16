@@ -1,0 +1,28 @@
+name: Deploy MultiDocker
+on:
+    push:
+        branches:
+            - main # check your repo, your default branch might be master!
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - run:
+                  docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{
+                  secrets.DOCKER_PASSWORD }}
+            - run:
+                  docker build -t svk72/react-test -f ./client/Dockerfile.dev
+                  ./client
+            - run: docker run -e CI=true svk72/react-test npm test
+
+            - run: docker build -t svk72/multi-client ./client
+            - run: docker build -t svk72/multi-nginx ./nginx
+            - run: docker build -t svk72/multi-server ./server
+            - run: docker build -t svk72/multi-worker ./worker
+
+            - run: docker push svk72/multi-client
+            - run: docker push svk72/multi-nginx
+            - run: docker push svk72/multi-server
+            - run: docker push svk72/multi-worker
