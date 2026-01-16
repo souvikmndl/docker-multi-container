@@ -1,0 +1,10 @@
+First off, EC2 and Elastic Compute Cloud are the same thing.
+
+Next, AWS encompasses the range of Web Services that includes EC2 and Elastic Beanstalk. It also includes many others such as S3, RDS, DynamoDB, and all the others.
+
+EC2
+EC2 is Amazon's service that allows you to create a server (AWS calls these instances) in the AWS cloud. You pay by the hour and only what you use. You can do whatever you want with this instance as well as launch n number of instances.
+
+Elastic Beanstalk
+Elastic Beanstalk is one layer of abstraction away from the EC2 layer. Elastic Beanstalk will setup an "environment" for you that can contain a number of EC2 instances, an optional database, as well as a few other AWS components such as a Elastic Load Balancer, Auto-Scaling Group, Security Group. Then Elastic Beanstalk will manage these items for you whenever you want to update your software running in AWS. Elastic Beanstalk doesn't add any cost on top of these resources that it creates for you. If you have 10 hours of EC2 usage, then all you pay is 10 compute hours.
+
